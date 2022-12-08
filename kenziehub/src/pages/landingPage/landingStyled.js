@@ -19,6 +19,7 @@ export const LandingDivLogo = styled.div`
     color: var(--White);
     border: solid transparent;
     border-radius: 6px;
+    cursor: pointer;
   }
 `;
 

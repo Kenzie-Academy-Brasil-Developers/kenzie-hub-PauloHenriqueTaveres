@@ -63,6 +63,7 @@ export const LoginButton = styled.button`
   color: var(--Grey-0);
   border-radius: 4px;
   font-size: 15px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.3s;
@@ -78,4 +79,5 @@ export const RedirectRegisterButtom = styled.button`
   color: var(--Grey-0);
   border-radius: 4px;
   font-size: 15px;
+  cursor: pointer;
 `;

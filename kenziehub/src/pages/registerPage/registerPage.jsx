@@ -76,7 +76,14 @@ export const RegisterPage = () => {
     <Register>
       <div className="logoConteiner">
         <Logo>Kenzie Hub</Logo>
-        <button>Voltar</button>
+        <button
+          onClick={(e) => {
+            navigate("/");
+            e.preventDefault();
+          }}
+        >
+          Voltar
+        </button>
       </div>
       /
       <RegisterForm onSubmit={handleSubmit(submit)}>

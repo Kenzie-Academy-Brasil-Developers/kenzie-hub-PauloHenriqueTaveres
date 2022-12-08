@@ -8,7 +8,6 @@ export const Register = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10%;
-  overflow-y: scroll;
 
   .logoConteiner {
     display: flex;
@@ -24,6 +23,7 @@ export const Register = styled.div`
       color: var(--White);
       border: solid transparent;
       border-radius: 6px;
+      cursor: pointer;
     }
   }
 
@@ -109,6 +109,7 @@ export const RegisterButton = styled.button`
   color: var(--Grey-0);
   border-radius: 4px;
   font-size: 15px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.3s;

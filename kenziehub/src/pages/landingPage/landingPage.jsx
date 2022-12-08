@@ -1,14 +1,19 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserInfoContext } from "../../contexts/userInfoContext";
 import { Logo } from "../../globalComponentes/logo";
 import { Landing, LandingDivLogo, LineComponente } from "./landingStyled";
 
 export const LandingPage = () => {
+  const { userInfos, removeUserInfo } = useContext(UserInfoContext);
+
   const navigate = useNavigate();
 
   function cleanLocalStorage(e) {
     e.preventDefault();
     window.localStorage.clear();
     navigate("/");
+    removeUserInfo();
   }
 
   return (
@@ -24,8 +29,8 @@ export const LandingPage = () => {
         </button>
       </LandingDivLogo>
       <LineComponente>
-        <p>Olá, Samuel Leão</p>
-        <span>Primeiro módulo (Introdução ao Frontend)</span>
+        <p>{userInfos.data.user.name}</p>
+        <span>{userInfos.data.user.course_module}</span>
       </LineComponente>
     </Landing>
   );

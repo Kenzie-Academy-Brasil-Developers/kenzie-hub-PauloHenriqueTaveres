@@ -13,8 +13,12 @@ import { api } from "../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserInfoContext } from "../../contexts/userInfoContext";
 
 export const LoginPage = () => {
+  const { addUserInfo } = useContext(UserInfoContext);
+
   const navigate = useNavigate();
 
   const formSchema = yup.object().shape({
@@ -40,6 +44,7 @@ export const LoginPage = () => {
         window.localStorage.setItem("UserToken", res.data.token);
         window.localStorage.setItem("UserId", res.data.user.id);
         setTimeout(() => navigate("/landing"), 3000);
+        addUserInfo(res);
         notifySucess(res);
       })
       .catch((err) => {
@@ -97,7 +102,14 @@ export const LoginPage = () => {
         )}
         <LoginButton type="submit">Entrar</LoginButton>
         <span>Ainda não possui uma conta?</span>
-        <RedirectRegisterButtom>Cadastre-se</RedirectRegisterButtom>
+        <RedirectRegisterButtom
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/register");
+          }}
+        >
+          Cadastre-se
+        </RedirectRegisterButtom>
       </LoginForm>
       <ToastContainer />
     </Login>
