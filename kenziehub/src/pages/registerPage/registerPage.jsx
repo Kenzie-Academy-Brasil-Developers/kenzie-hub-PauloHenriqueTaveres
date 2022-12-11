@@ -4,13 +4,16 @@ import { Register, RegisterButton, RegisterForm } from "./registerStyle";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledParag } from "../../globalComponentes/yupParagStyled";
-import { api } from "../../services/api";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/userContext";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
+
+  const { submitRegister } = useContext(UserContext);
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome obrigatorio"),
@@ -32,46 +35,6 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(formSchema) });
 
-  function submit(data) {
-    console.log(data);
-    api
-      .post("/users", data)
-      .then((res) => {
-        notifySucess();
-        setTimeout(() => navigate("/"), 3000);
-      })
-      .catch((err) => {
-        if (err) {
-          notifyErr();
-        }
-      });
-  }
-
-  const notifyErr = () => {
-    toast.error("Erro no cadastro", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
-
-  const notifySucess = () =>
-    toast.success("Cadastro feito com suscesso", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-
   return (
     <Register>
       <div className="logoConteiner">
@@ -86,7 +49,7 @@ export const RegisterPage = () => {
         </button>
       </div>
       /
-      <RegisterForm onSubmit={handleSubmit(submit)}>
+      <RegisterForm onSubmit={handleSubmit(submitRegister)}>
         <h3>Crie sua conta</h3>
         <span>Rapido e grátis, vamos nessa</span>
         <p>Nome</p>

@@ -9,15 +9,15 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledParag } from "../../globalComponentes/yupParagStyled";
-import { api } from "../../services/api";
-import { toast, ToastContainer } from "react-toastify";
+
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { UserInfoContext } from "../../contexts/userInfoContext";
+import { UserContext } from "../../contexts/userContext";
 
 export const LoginPage = () => {
-  const { addUserInfo } = useContext(UserInfoContext);
+  const { submitLogin } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -34,55 +34,10 @@ export const LoginPage = () => {
     resolver: yupResolver(formSchema),
   });
 
-  function submit(data) {
-    console.log(data);
-
-    api
-      .post("/sessions", data)
-      .then((res) => {
-        window.localStorage.clear();
-        window.localStorage.setItem("UserToken", res.data.token);
-        window.localStorage.setItem("UserId", res.data.user.id);
-        setTimeout(() => navigate("/landing"), 3000);
-        addUserInfo(res);
-        notifySucess(res);
-      })
-      .catch((err) => {
-        if (err) {
-          notifyErr(err);
-        }
-      });
-  }
-
-  const notifyErr = (err) => {
-    toast.error(`Falha no login`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
-
-  const notifySucess = (res) =>
-    toast.success(`Login com suscesso`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-
   return (
     <Login>
       <Logo> Kenzie Hub</Logo>
-      <LoginForm onSubmit={handleSubmit(submit)}>
+      <LoginForm onSubmit={handleSubmit(submitLogin)}>
         <h3> Login</h3>
         <p>Email</p>
         <input
